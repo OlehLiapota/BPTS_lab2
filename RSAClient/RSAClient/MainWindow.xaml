@@ -1,0 +1,20 @@
+﻿<Window x:Class="RSAClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RSAClient"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Label x:Name="loginLabel" Height="30" Width="100" Content="Login:" Margin="248,24,452,379"/>
+        <TextBox x:Name="login" Height="30" Width="200" Margin="352,24,248,379"/>
+
+        <Label x:Name="passwordLabel" Height="30" Width="100" Content="Password:" Margin="248,59,452,344"/>
+        <TextBox x:Name="password" Height="30" Width="200" Margin="352,59,248,344"/>
+
+        <Button x:Name="send" Height="30" Content="Send" Margin="248,94,248,309"/>
+
+        <TextBlock x:Name="serverMessage" Margin="248,146,248,64"/>
+    </Grid>
+</Window>
