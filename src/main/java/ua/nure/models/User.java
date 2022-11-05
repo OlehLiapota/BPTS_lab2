@@ -28,4 +28,13 @@ public class User {
     public void setKey(String key) {
         this.key = key;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return equals((User) obj);
+    }
+
+    private boolean equals(User user) {
+        return this.getLogin().equals(user.getLogin()) && this.getPassword().equals(user.getPassword());
+    }
 }
