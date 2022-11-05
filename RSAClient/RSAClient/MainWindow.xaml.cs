@@ -59,7 +59,7 @@ namespace RSAClient
                 if (result.IsSuccessStatusCode)
                 {
                     var encryptedBytes = Convert.FromBase64String(await result.Content.ReadAsStringAsync());
-                    using (var rsa = new RSACryptoServiceProvider())
+                    using (var rsa = new RSACryptoServiceProvider(2048))
                     {
                         rsa.ImportPkcs8PrivateKey(_rsa.ExportPkcs8PrivateKey(), out int bytes);
                         var decryptedBytes = rsa.Decrypt(encryptedBytes, false);
