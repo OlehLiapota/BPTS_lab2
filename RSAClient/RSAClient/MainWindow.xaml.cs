@@ -66,7 +66,6 @@ namespace RSAClient
 
                         serverMessage.Text += $"\n{Encoding.UTF8.GetString(decryptedBytes)}";
                     }
-                        serverMessage.Text = ;
                 }
                 else
                 {
