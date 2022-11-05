@@ -58,14 +58,7 @@ namespace RSAClient
                 var result = await httpClient.PostAsJsonAsync(_loginUrl, loginModel);
                 if (result.IsSuccessStatusCode)
                 {
-                    var encryptedBytes = Convert.FromBase64String(await result.Content.ReadAsStringAsync());
-                    using (var rsa = new RSACryptoServiceProvider(2048))
-                    {
-                        rsa.ImportPkcs8PrivateKey(_rsa.ExportPkcs8PrivateKey(), out int bytes);
-                        var decryptedBytes = rsa.Decrypt(encryptedBytes, false);
-
-                        serverMessage.Text += $"\n{Encoding.UTF8.GetString(decryptedBytes)}";
-                    }
+                    serverMessage.Text += Decrypt(await result.Content.ReadAsStringAsync());
                 }
                 else
                 {
@@ -83,6 +76,18 @@ namespace RSAClient
                 var encryptedBytes = rsa.Encrypt(Encoding.UTF8.GetBytes(value), false);
 
                 return Convert.ToBase64String(encryptedBytes);
+            }
+        }
+
+        private string Decrypt(string value)
+        {
+            var encryptedBytes = Convert.FromBase64String(value);
+            using (var rsa = new RSACryptoServiceProvider(2048))
+            {
+                rsa.ImportPkcs8PrivateKey(_rsa.ExportPkcs8PrivateKey(), out int bytes);
+                var decryptedBytes = rsa.Decrypt(encryptedBytes, false);
+
+                return $"\n{Encoding.UTF8.GetString(decryptedBytes)}";
             }
         }
     }
