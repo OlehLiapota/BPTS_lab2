@@ -13,7 +13,7 @@
         <Label x:Name="passwordLabel" Height="30" Width="100" Content="Password:" Margin="248,59,452,344"/>
         <TextBox x:Name="password" Height="30" Width="200" Margin="352,59,248,344"/>
 
-        <Button x:Name="send" Height="30" Content="Send" Margin="248,94,248,309"/>
+        <Button x:Name="send" Height="30" Content="Send" Margin="248,94,248,309" Click="Send_Click"/>
 
         <TextBlock x:Name="serverMessage" Margin="248,146,248,64"/>
     </Grid>

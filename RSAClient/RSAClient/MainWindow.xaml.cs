@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
@@ -12,6 +13,7 @@ namespace RSAClient
     public partial class MainWindow : Window
     {
         private const string _publicKeyUrl = "";
+        private const string _loginUrl = "";
 
         private RSACryptoServiceProvider _rsa = new RSACryptoServiceProvider(2048);
         private string? _clientSPKI = null;
@@ -22,6 +24,7 @@ namespace RSAClient
             InitializeComponent();
 
             _clientSPKI = Convert.ToBase64String(_rsa.ExportSubjectPublicKeyInfo());
+            GetPublicKey();
         }
 
         private async void GetPublicKey()
@@ -50,6 +53,25 @@ namespace RSAClient
                     Password = Encrypt(password.Text),
                     Key = _clientSPKI
                 };
+
+                var httpClient = new HttpClient();
+                var result = await httpClient.PostAsJsonAsync(_loginUrl, loginModel);
+                if (result.IsSuccessStatusCode)
+                {
+                    var encryptedBytes = Convert.FromBase64String(await result.Content.ReadAsStringAsync());
+                    using (var rsa = new RSACryptoServiceProvider())
+                    {
+                        rsa.ImportPkcs8PrivateKey(_rsa.ExportPkcs8PrivateKey(), out int bytes);
+                        var decryptedBytes = rsa.Decrypt(encryptedBytes, false);
+
+                        serverMessage.Text += $"\n{Encoding.UTF8.GetString(decryptedBytes)}";
+                    }
+                        serverMessage.Text = ;
+                }
+                else
+                {
+                    MessageBox.Show($"Connection Error. Status Code: {result.StatusCode}");
+                }
             }
         }
 
